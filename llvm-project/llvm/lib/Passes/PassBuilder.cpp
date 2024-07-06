@@ -422,6 +422,8 @@ static cl::opt<bool> s_obf_igv("igv", cl::init(false), cl::desc("Indirect Global
 static cl::opt<bool> s_obf_icall("icall", cl::init(false), cl::desc("Indirect Call"));
 static cl::opt<bool> s_obf_fn_name_cmd("fncmd", cl::init(false), cl::desc("use function name control obfuscation(_ + command + _ | example: function_fla_bcf_)"));
 
+llvm::FunctionPassManager FPM;
+
 PassBuilder::PassBuilder(TargetMachine *TM, PipelineTuningOptions PTO,
                          std::optional<PGOOptions> PGOOpt,
                          PassInstrumentationCallbacks *PIC)
@@ -458,6 +460,12 @@ PassBuilder::PassBuilder(TargetMachine *TM, PipelineTuningOptions PTO,
 #include "PassRegistry.def"
   }
   
+  FPM.addPass(IndirectCallPass(s_obf_icall)); // 间接调用
+  FPM.addPass(SplitBasicBlockPass(s_obf_split)); // 优先进行基本块分割
+  FPM.addPass(FlatteningPass(s_obf_fla)); // 对于控制流平坦化
+  FPM.addPass(SubstitutionPass(s_obf_sub)); // 指令替换
+  FPM.addPass(BogusControlFlowPass(s_obf_bcf)); // 虚假控制流
+
   // Soule
   outs() << "[Soule] registerPipelineStartEPCallback\n";
   this->registerPipelineStartEPCallback(
@@ -469,12 +477,15 @@ PassBuilder::PassBuilder(TargetMachine *TM, PipelineTuningOptions PTO,
           outs() << "[Soule] enable function name control obfuscation(_ + command + _ | example: function_fla_)\n";
         }
         MPM.addPass(StringEncryptionPass(s_obf_sobf)); // 先进行字符串加密 出现字符串加密基本块以后再进行基本块分割和其他混淆 加大解密难度
+        /*
         llvm::FunctionPassManager FPM;
         FPM.addPass(IndirectCallPass(s_obf_icall)); // 间接调用
         FPM.addPass(SplitBasicBlockPass(s_obf_split)); // 优先进行基本块分割
         FPM.addPass(FlatteningPass(s_obf_fla)); // 对于控制流平坦化
         FPM.addPass(SubstitutionPass(s_obf_sub)); // 指令替换
         FPM.addPass(BogusControlFlowPass(s_obf_bcf)); // 虚假控制流
+        MPM.addPass(createModuleToFunctionPassAdaptor(std::move(FPM)));
+        */
         MPM.addPass(createModuleToFunctionPassAdaptor(std::move(FPM)));
         MPM.addPass(IndirectBranchPass(s_obf_ibr)); // 间接指令 理论上间接指令应该放在最后
         MPM.addPass(IndirectGlobalVariablePass(s_obf_igv)); // 间接全局变量

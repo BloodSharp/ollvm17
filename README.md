@@ -62,7 +62,7 @@ int function_fla_bcf_(int a);
 ```
 
 # Official LLVM Patching Tutorial
-1.Download LLVM official source code [LLVM 17.0.6](https://github.com/llvm/llvm-project/releases/tag/llvmorg-17.0.6) 并解压<br>
+1.Download LLVM official source code [LLVM 17.0.6](https://github.com/llvm/llvm-project/releases/tag/llvmorg-17.0.6) and unzip it<br>
 2.Download this project and replace the files in the project with the official source code<br>
 3.Use cmake to create the compilation tool generation file you need, taking VisualStudio 2022 as an example
 ```bash

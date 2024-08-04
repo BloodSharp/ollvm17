@@ -40,8 +40,8 @@ int function_fla_bcf_(int a);
 -   bcf_prob # Probability from 1% to 100%, defaults to 70
 -   bcf_loop # Applies the Bogus control flow to the function the number of times specified, no restrictions, defaults to 2
 - fla # Control Flow Flattening
-- sub # 指令替换(add/and/sub/or/xor)
--   sub_loop # 指令替换次数, 无限制, 默认1
+- sub # Instruction substitution (add/and/sub/or/xor)
+-   sub_loop # Number of instruction substitution, unlimited, defaults to 1
 - sobf # String obfuscation (only narrow characters)
 - split # Activates basic block splitting. Improve the flattening when applied together.
 -   split_num # Applies the Bogus control flow to the function the number of times specified, no restrictions, defaults to 3

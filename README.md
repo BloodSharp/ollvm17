@@ -44,7 +44,7 @@ int function_fla_bcf_(int a);
 -   sub_loop # 指令替换次数, 无限制, 默认1
 - sobf # String obfuscation (only narrow characters)
 - split # Activates basic block splitting. Improve the flattening when applied together.
--   split_num # Applies the Bogus control flow to the function the number of times specified, no restrictions, defaults to3
+-   split_num # Applies the Bogus control flow to the function the number of times specified, no restrictions, defaults to 3
 - ibr # Indirect Branching Pass
 - icall # indirect calls (call register)
 - igv # Indirect global variables

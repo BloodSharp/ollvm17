@@ -146,12 +146,12 @@ bool llvm::toObfuscate(bool flag, Function *f,
   // 由于Visual Studio无法传入annotation,
   // 增加一个使用函数名匹配是否单独开关的功能
   if (obf_function_name_cmd == true) { // 开启使用函数名匹配混淆功能开关
-    if (f->getName().find("_" + attrNo + "_") != StringRef::npos) {
+    if (f->getName().find("__ollvm_" + attrNo + "_") != StringRef::npos) {
       outs() << "[Soule] " << attrNo << ".function: " << f->getName().str()
              << "\n";
       return false;
     }
-    if (f->getName().find("_" + attr + "_") != StringRef::npos) {
+    if (f->getName().find("__ollvm_" + attr + "_") != StringRef::npos) {
       outs() << "[Soule] " << attr << ".function: " << f->getName().str()
              << "\n";
       return true;
